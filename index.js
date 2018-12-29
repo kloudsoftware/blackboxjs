@@ -115,7 +115,6 @@ const prepareplaygound = () => {
 
 const prepareAtoms = () => {
     for(let i = 0; i < numAtoms; i++) {
-        start:
         let atomX = Math.floor((Math.random() * 7));
         let atomY = Math.floor((Math.random() * 7));
 
