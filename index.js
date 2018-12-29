@@ -138,6 +138,10 @@ export const renderPlayground = () => {
     return beams;
 };
 
+export const getAtoms = () => {
+    return atoms;
+};
+
 
 const checkBlocks = (x, y) => {
     let filteredAtoms = atoms.filter(atom => atom.checkBlocked(x, y));
