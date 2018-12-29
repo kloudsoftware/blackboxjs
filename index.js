@@ -123,6 +123,8 @@ const prepareAtoms = () => {
         let obj = new Atom(atomX, atomY);
 
         if(atoms.includes(obj)) {
+            i -= 1;
+            continue;
         }
         atoms.push(obj);
         console.log(obj);
