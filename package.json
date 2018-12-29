@@ -1,0 +1,11 @@
+{
+  "name": "blackboxjs",
+  "version": "1.0.0",
+  "description": "Blackbox game lib",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "kloudsoftware",
+  "license": "MIT"
+}
