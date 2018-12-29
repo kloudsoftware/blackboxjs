@@ -186,7 +186,7 @@ const revealBeam = (x, y) => {;
 };
 
 const checkEnded = (beam, direction) => {
-    if (compareDirection(direction, directions.up)) {
+    if(compareDirection(direction, directions.up)) {
         return beam.currentY === 0;
     }
 
@@ -195,11 +195,11 @@ const checkEnded = (beam, direction) => {
     }
 
     if(compareDirection(direction, directions.left)) {
-        return beam.currentX === 0;
+        return beam.currentX === playgroundSize - 1;
     }
 
     if(compareDirection(direction, directions.right)) {
-        return beam.currentX === playgroundSize - 1;
+        return beam.currentX === 0;
     }
 
     if(compareDirection(direction, directions.nothing)) {
