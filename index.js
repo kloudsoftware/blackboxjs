@@ -1,6 +1,6 @@
-export const directions = {up: {x: 0, y:1}, down: {x:0, y:-1}, left: {x: -1, y: 0}, right: {x: 1, y: 0}, block:0xc0debabe, nothing: {x: 0, y: 0}};
+ const directions = {up: {x: 0, y:1}, down: {x:0, y:-1}, left: {x: -1, y: 0}, right: {x: 1, y: 0}, block:0xc0debabe, nothing: {x: 0, y: 0}};
 
-export class Atom {
+ class Atom {
     constructor(x, y) {
         this.x = x;
         this.y = y;
@@ -22,8 +22,30 @@ export class Atom {
         };
     }
 
+     checkDeflectionLeft(x, y) {
+         if(this.deflectLeft.top.x === x && this.deflectLeft.top.y === y) {
+             return directions.left;
+         }
+
+         if(this.deflectLeft.bottom.x === x && this.deflectLeft.bottom.y === y) {
+             return directions.left;
+         }
+         return directions.nothing;
+     }
+
+     checkDeflectionRight(x, y) {
+         if(this.deflectRight.top.x === x && this.deflectRight.top.y === y) {
+             return directions.left;
+         }
+
+         if(this.deflectRight.bottom.x === x && this.deflectRight.bottom.y === y) {
+             return directions.left;
+         }
+         return directions.nothing;
+     }
+
     apply(x, y, direction) {
-        let dir = checkDeflectionLeft() === directions.nothing ? checkDeflectionRight() : direction.left;
+        let dir = this.checkDeflectionLeft() === directions.nothing ? this.checkDeflectionRight() : direction.left;
         return {
             x: direction.x + dir.x,
             y: direction.y + dir.y
@@ -31,34 +53,13 @@ export class Atom {
     }
 
 
-    checkDeflectionLeft(x, y) {
-        if(this.deflectLeft.top.x === x && this.deflectLeft.top.y === y) {
-            return directions.left;
-        }
-
-        if(this.deflectLeft.bottom.x === x && this.deflectLeft.bottom.y === y) {
-            return directions.left;
-        }
-        return directions.nothing;
-    }
-
-    checkDeflectionRight(x, y) {
-        if(this.deflectRight.top.x === x && this.deflectRight.top.y === y) {
-            return directions.left;
-        }
-
-        if(this.deflectRight.bottom.x === x && this.deflectRight.bottom.y === y) {
-            return directions.left;
-        }
-        return directions.nothing;
-    }
 
     checkBlocked(x, y) {
         return this.x === x && this.y === y;
     }
 }
 
-export class Beam {
+ class Beam {
     constructor(startX, startY, direction, color) {
         this.startX = startX;
         this.startY = startY;
@@ -73,10 +74,10 @@ export class Beam {
         this.path = [{x: startX,y: startY}];
     }
 
-    transverse(direction) {
-        this.currentX += direction.x;
-        this.currentY += direction.y;
-        this.path.push({x: currentX, y: currentY});
+    transverse(dir) {
+        this.currentX += dir.x;
+        this.currentY += dir.y;
+        this.path.push({x: this.currentX, y: this.currentY});
     }
 }
 
@@ -127,13 +128,19 @@ const prepareAtoms = () => {
     }
 };
 
-export const renderPlayground = () => {
+ const renderPlayground = () => {
     if(!wasInitialized) {
         prepareplaygound();
         wasInitialized = true;
     }
 
     return beams;
+};
+
+
+const checkBlocks = (x, y) => {
+    let filteredAtoms = atoms.filter(atom => atom.checkBlocked(x, y));
+    return filteredAtoms.length > 0;
 };
 
 const calcBeam = (x, y, initalDirection) => {
@@ -143,12 +150,14 @@ const calcBeam = (x, y, initalDirection) => {
         if(checkBlocks(beam.currentX, beam.currentY)) {
             beam.finalX = beam.currentX;
             beam.finalY = beam.currentY;
+            console.log("Ended block");
             break;
         }
 
         direction = calcDirection(beam.currentX, beam.currentY, direction);
-        beam.tansverse(direction);
+        beam.transverse(direction);
 
+        console.log(beam);
         if(checkEnded(beam, direction)) {
             beam.finalX = beam.currentX;
             beam.finalY = beam.currentY;
@@ -158,7 +167,7 @@ const calcBeam = (x, y, initalDirection) => {
     return beam;
 };
 
-export const revealBeam = (x, y) => {
+const revealBeam = (x, y) => {;
     let direction;
 
     if(x === 0) {
@@ -178,33 +187,41 @@ export const revealBeam = (x, y) => {
 
 
 const checkEnded = (beam, direction) => {
-    if (direction === directions.up) {
+    if (compareDirection(direction, directions.up)) {
         return beam.currentY === 0;
     }
 
-    if(direction === directions.down) {
+    if(compareDirection(direction, directions.down)) {
         return beam.currentY === playgroundSize - 1;
     }
 
-    if(direction === directions.left) {
+    if(compareDirection(direction, directions.left)) {
         return beam.currentX === 0;
     }
 
-    if(direction === directions.right) {
+    if(compareDirection(direction, directions.right)) {
         return beam.currentX === playgroundSize - 1;
     }
 
-    console.log("ILLEGAL POSITION FOR BEAM");
+    console.log("NOT A KNOWN DIRECTION");
+    console.log(direction);
     return false;
 };
 
+const compareDirection = (dir1, dir2) => {
+    return dir1.x === dir2.x && dir1.y === dir2.y;
+}
+
 const calcDirection = (x, y, direction) => {
-    atoms.forEach(atom => direction = atom.apply(x, y, direction));
+    for (let atom of atoms) {
+        direction = atom.apply(x, y, direction);
+    }
+    return direction;
 };
 
-const checkBlocks = (x, y) => {
-    atoms.filter(atom => atom.checkBlocked(x, y));
-    return atoms.length > 0;
-};
-
+if(!wasInitialized) {
+    prepareplaygound();
+    wasInitialized = true;
+}
+revealBeam(0,0);
 console.log(renderPlayground());
