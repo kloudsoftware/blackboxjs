@@ -151,6 +151,7 @@ const revealBeam = (x, y) => {
     }
 
     let beam = calcBeam(x, y, direction);
+    beams.push(beam);
 };
 
 
