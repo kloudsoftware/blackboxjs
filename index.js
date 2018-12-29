@@ -129,7 +129,7 @@ const prepareAtoms = () => {
         }
 };
 
-const renderPlayground = () => {
+export const renderPlayground = () => {
     if(!wasInitialized) {
         prepareplaygound();
         wasInitialized = true;
@@ -168,7 +168,7 @@ const calcBeam = (x, y, initalDirection) => {
     return beam;
 };
 
-const revealBeam = (x, y) => {;
+export const revealBeam = (x, y) => {;
     let direction;
 
     if(x === 0) {
@@ -226,5 +226,5 @@ if(!wasInitialized) {
     prepareplaygound();
     wasInitialized = true;
 }
-revealBeam(0,0);
-console.log(renderPlayground());
+//revealBeam(0,0);
+//console.log(renderPlayground());
