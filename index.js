@@ -151,6 +151,7 @@ const calcBeam = (x, y, initalDirection) => {
         if(checkBlocks(beam.currentX, beam.currentY)) {
             beam.finalX = beam.currentX;
             beam.finalY = beam.currentY;
+            beam.blocked = true;
             console.log("Ended block");
             break;
         }
