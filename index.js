@@ -45,7 +45,8 @@
      }
 
     apply(x, y, direction) {
-        let dir = this.checkDeflectionLeft() === directions.nothing ? this.checkDeflectionRight() : direction.left;
+        let dir = this.checkDeflectionLeft(x, y) === directions.nothing ? this.checkDeflectionRight(x, y) : directions.left;
+        console.log("CALCULATED DIRECTION: " + dir);
         return {
             x: direction.x + dir.x,
             y: direction.y + dir.y
@@ -125,10 +126,10 @@ const prepareAtoms = () => {
         }
         atoms.push(obj);
         console.log(obj);
-    }
+        }
 };
 
- const renderPlayground = () => {
+const renderPlayground = () => {
     if(!wasInitialized) {
         prepareplaygound();
         wasInitialized = true;
@@ -155,14 +156,13 @@ const calcBeam = (x, y, initalDirection) => {
         }
 
         direction = calcDirection(beam.currentX, beam.currentY, direction);
-        beam.transverse(direction);
 
-        console.log(beam);
         if(checkEnded(beam, direction)) {
             beam.finalX = beam.currentX;
             beam.finalY = beam.currentY;
             break;
         }
+        beam.transverse(direction);
     }
     return beam;
 };
@@ -184,8 +184,6 @@ const revealBeam = (x, y) => {;
     beams.push(beam);
 };
 
-
-
 const checkEnded = (beam, direction) => {
     if (compareDirection(direction, directions.up)) {
         return beam.currentY === 0;
@@ -203,14 +201,18 @@ const checkEnded = (beam, direction) => {
         return beam.currentX === playgroundSize - 1;
     }
 
+    if(compareDirection(direction, directions.nothing)) {
+        return true;
+    }
+
     console.log("NOT A KNOWN DIRECTION");
-    console.log(direction);
+    console.log(direction.x + " " + direction.y);
     return false;
 };
 
 const compareDirection = (dir1, dir2) => {
     return dir1.x === dir2.x && dir1.y === dir2.y;
-}
+};
 
 const calcDirection = (x, y, direction) => {
     for (let atom of atoms) {
