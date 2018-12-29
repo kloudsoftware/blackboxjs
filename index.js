@@ -187,11 +187,11 @@ const revealBeam = (x, y) => {;
 
 const checkEnded = (beam, direction) => {
     if(compareDirection(direction, directions.up)) {
-        return beam.currentY === 0;
+        return beam.currentY === playgroundSize - 1;
     }
 
     if(compareDirection(direction, directions.down)) {
-        return beam.currentY === playgroundSize - 1;
+        return beam.currentY === 0;
     }
 
     if(compareDirection(direction, directions.left)) {
