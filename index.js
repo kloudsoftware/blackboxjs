@@ -136,24 +136,6 @@ export const renderPlayground = () => {
     return beams;
 };
 
-export const revealBeam = (x, y) => {
-    let direction;
-
-    if(x === 0) {
-        direction = directions.right;
-    } else if(y === 0) {
-        direction = directions.up;
-    } else if(y === playgroundSize - 1) {
-        direction = directions.down;
-    } else {
-        direction = directions.left;
-    }
-
-    let beam = calcBeam(x, y, direction);
-    beams.push(beam);
-};
-
-
 const calcBeam = (x, y, initalDirection) => {
     let direction = initalDirection;
     let beam = new Beam(x, y, direction, 0);
@@ -173,7 +155,27 @@ const calcBeam = (x, y, initalDirection) => {
             break;
         }
     }
+    return beam;
 };
+
+export const revealBeam = (x, y) => {
+    let direction;
+
+    if(x === 0) {
+        direction = directions.right;
+    } else if(y === 0) {
+        direction = directions.up;
+    } else if(y === playgroundSize - 1) {
+        direction = directions.down;
+    } else {
+        direction = directions.left;
+    }
+
+    let beam = calcBeam(x, y, direction);
+    beams.push(beam);
+};
+
+
 
 const checkEnded = (beam, direction) => {
     if (direction === directions.up) {
