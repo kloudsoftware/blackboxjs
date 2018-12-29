@@ -206,6 +206,11 @@ const checkEnded = (beam, direction) => {
         return true;
     }
 
+    if(beam.currentX < 0 || beam.currentY < 0) {
+        console.log("Beam is on illegal pos:\n X: " + beam.currentX + " Y: " + beam.currentY);
+        return true;
+    }
+
     console.log("NOT A KNOWN DIRECTION");
     console.log(direction.x + " " + direction.y);
     return false;
