@@ -1,6 +1,6 @@
-const directions = {up: {x: 0, y:1}, down: {x:0, y:-1}, left: {x: -1, y: 0}, right: {x: 1, y: 0}, block:0xc0debabe, nothing: {x: 0, y: 0}};
+export const directions = {up: {x: 0, y:1}, down: {x:0, y:-1}, left: {x: -1, y: 0}, right: {x: 1, y: 0}, block:0xc0debabe, nothing: {x: 0, y: 0}};
 
-class Atom {
+export class Atom {
     constructor(x, y) {
         this.x = x;
         this.y = y;
@@ -58,7 +58,7 @@ class Atom {
     }
 }
 
-class Beam {
+export class Beam {
     constructor(startX, startY, direction, color) {
         this.startX = startX;
         this.startY = startY;
@@ -128,7 +128,7 @@ const prepareAtoms = () => {
     }
 };
 
-const renderPlayground = () => {
+export const renderPlayground = () => {
     if(!wasInitialized) {
         prepareplaygound();
         wasInitialized = true;
@@ -137,7 +137,7 @@ const renderPlayground = () => {
     return beams;
 };
 
-const revealBeam = (x, y) => {
+export const revealBeam = (x, y) => {
     let direction;
 
     if(x === 0) {
