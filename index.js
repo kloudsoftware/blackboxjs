@@ -35,11 +35,11 @@
 
      checkDeflectionRight(x, y) {
          if(this.deflectRight.top.x === x && this.deflectRight.top.y === y) {
-             return directions.left;
+             return directions.right;
          }
 
          if(this.deflectRight.bottom.x === x && this.deflectRight.bottom.y === y) {
-             return directions.left;
+             return directions.right;
          }
          return directions.nothing;
      }
